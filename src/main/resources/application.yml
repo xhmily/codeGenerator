@@ -11,6 +11,7 @@ spring:
 server:
   tomcat:
     basedir: /tmp/tomcat
+  port: 80
 
 
 # 配置slq打印日志
