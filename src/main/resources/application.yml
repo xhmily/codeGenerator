@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/wx?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: wx
+    password: xhmily
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      location: /tmp
+server:
+  tomcat:
+    basedir: /tmp/tomcat
+
+
+# 配置slq打印日志
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#server:
+#  port: 443
+#  ssl:
+#    key-store: classpath:server.jks
+#    key-store-password: sg7x0wr2fb3yc
+#    key-store-type: JKS

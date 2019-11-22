@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+<meta charset="utf-8">
+<link rel="icon" href="https://cn.vuejs.org/images/logo.png" type="image/png">
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <el-container>
+
+      <el-header>
+          <el-alert
+            title="代码生成器"
+            type="info"
+            description="只能用于生成使用了mybati-puls的项目代码"
+            :closable=false
+            center>
+          </el-alert>
+      </el-header>
+
+      <el-main>
+        <el-row>
+          <el-col :span="9"><div class="grid-content"></div></el-col>
+          <el-col :span="6">
+              <div class="grid-content">
+                <el-form label-position="top" label-width="100px" :model="form" :inline=true class="demo-form-inline">
+
+                  <el-form-item label="数据库类型" :prop="form.dbType">
+                        <el-select v-model="form.dbType" placeholder="请选择">
+                          <el-option label="MySql" value="1"></el-option>
+                          <el-option label="SqlServer" value="2"></el-option>
+                        </el-select>
+                  </el-form-item>
+                  <el-form-item label="数据库地址">
+                      <el-input
+                        placeholder="127.0.0.1:3306"
+                        prefix-icon="el-icon-link"
+                        v-model="form.jdbcLink">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="数据库账号">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-user"
+                        v-model="form.jdbcUser">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="数据库密码">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.jdbcPwd">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="数据库名称">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.dbName">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="工程路径">
+                      <el-input
+                        placeholder="请输入绝对路径"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.projectPath">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="项目包名">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.parent">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="项目模块名">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.moduleName">
+                      </el-input>
+                  </el-form-item>
+
+                </el-form>
+                <el-form label-position="top" label-width="100px" :model="form">
+                    <el-form-item label="项目作者名">
+                      <el-input
+                        placeholder="请输入"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.author">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item label="数据库表名">
+                      <el-input
+                        placeholder="多个表请以英文逗号间隔"
+                        prefix-icon="el-icon-lock"
+                        v-model="form.dbTables">
+                      </el-input>
+                  </el-form-item>
+                  <el-form-item>
+                      <el-button type="primary" @click="generate">立即生成</el-button>
+                      <el-button>重置</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+          </el-col>
+          <el-col :span="9"><div class="grid-content"></div></el-col>
+        </el-row>
+      </el-main>
+
+    </el-container>
+
+</div>
+
+</body>
+
+<script type="text/javascript">
+ new Vue({
+            el:'#app',
+            data:{
+               options: [{
+                  value: '1',
+                  label: 'MySql'
+                }, {
+                  value: '2',
+                  label: 'SqlServer'
+                }],
+                form:{
+                    value:'',
+                    jdbcLink:'',
+                    jdbcUser:'',
+                    jdbcPwd:'',
+                    dbType:'',
+                    dbName:'',
+                    projectPath:'',
+                    author:'',
+                    parent:'',
+                    moduleName:'',
+                    dbTables:''
+                }
+            },
+            computed:{
+                msg(){
+                    console.log("msg==");
+                    return '789456';
+                }
+            },
+            methods:{
+                generate(){
+                    console.log(this.form)
+                    axios({
+                      method: 'post',
+                      url: 'http://localhost:8080/gen',
+                      data: this.form
+                    }).then(r=>{
+                        console.log(r.data)
+                        if (r.data=='生成成功！') {
+                            this.$message({
+                              message: '生成成功！',
+                              type: 'success'
+                            });
+                        }else{
+                            this.$message.error('生成失败！');
+                        }
+                    })
+                },
+
+            },
+            watch:{
+                'message'(){
+                    console.log("监视器调用");
+                }
+            }
+        })
+</script>
+<style>
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+</style>
+
+</html>
