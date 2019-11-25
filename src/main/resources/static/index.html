@@ -63,28 +63,28 @@
                   <el-form-item label="数据库名称">
                       <el-input
                         placeholder="请输入"
-                        prefix-icon="el-icon-lock"
+                        prefix-icon="el-icon-folder"
                         v-model="form.dbName">
                       </el-input>
                   </el-form-item>
                   <el-form-item label="工程路径">
                       <el-input
-                        placeholder="请输入绝对路径"
-                        prefix-icon="el-icon-lock"
+                        placeholder="C:\Users\java\项目1"
+                        prefix-icon="el-icon-folder-opened"
                         v-model="form.projectPath">
                       </el-input>
                   </el-form-item>
                   <el-form-item label="项目包名">
                       <el-input
                         placeholder="请输入"
-                        prefix-icon="el-icon-lock"
+                        prefix-icon="el-icon-present"
                         v-model="form.parent">
                       </el-input>
                   </el-form-item>
                   <el-form-item label="项目模块名">
                       <el-input
                         placeholder="请输入"
-                        prefix-icon="el-icon-lock"
+                        prefix-icon="el-icon-cpu"
                         v-model="form.moduleName">
                       </el-input>
                   </el-form-item>
@@ -94,20 +94,19 @@
                     <el-form-item label="项目作者名">
                       <el-input
                         placeholder="请输入"
-                        prefix-icon="el-icon-lock"
+                        prefix-icon="el-icon-s-custom"
                         v-model="form.author">
                       </el-input>
                   </el-form-item>
                   <el-form-item label="数据库表名">
                       <el-input
                         placeholder="多个表请以英文逗号间隔"
-                        prefix-icon="el-icon-lock"
+                        prefix-icon="el-icon-document"
                         v-model="form.dbTables">
                       </el-input>
                   </el-form-item>
                   <el-form-item>
                       <el-button type="primary" @click="generate">立即生成</el-button>
-                      <el-button>重置</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -155,13 +154,11 @@
             },
             methods:{
                 generate(){
-                    console.log(this.form)
                     axios({
                       method: 'post',
                       url: 'http://localhost:8080/gen',
                       data: this.form
                     }).then(r=>{
-                        console.log(r.data)
                         if (r.data=='生成成功！') {
                             this.$message({
                               message: '生成成功！',
@@ -173,6 +170,7 @@
                     })
                 },
 
+
             },
             watch:{
                 'message'(){
@@ -182,31 +180,9 @@
         })
 </script>
 <style>
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
   }
 </style>
 
